@@ -81,11 +81,11 @@ zoom: 11.5 // starting zoom
  map.on('style.load', function (){
      map.addSource('gismap', {
         type: 'geojson',
-        data: '/data/gismap.geojson'
+        data: 'data/gismap.geojson'
       });
 
   map.addLayer({
-  'id': 'filllayer',
+  'id': 'fill-layer',
   'type': 'fill',
   'source': 'gismap',
   'layout': {},
@@ -184,7 +184,7 @@ zoom: 11.5 // starting zoom
         map.on('mousemove', function (e) {
           // query for the features under the mouse, but only in the lots layer
           var features = map.queryRenderedFeatures(e.point, {
-              layers: ['filllayer'],
+              layers: ['fill-layer'],
           });
 
           if (features.length > 0) {
