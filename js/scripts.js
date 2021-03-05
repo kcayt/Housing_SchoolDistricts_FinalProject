@@ -199,7 +199,7 @@ zoom: 11.5 // starting zoom
 
             var popupContent = `
               <div>
-                ${address}<br/>
+              <h4>Zoning District:  ${address}</h4> <br/>
                  <p> Built FAR =  ${built}<br/>
                 ${landuseDescription} </p>
               </div>
