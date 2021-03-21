@@ -1,122 +1,155 @@
+
+
 mapboxgl.accessToken = 'pk.eyJ1Ijoia2NheXQiLCJhIjoiY2tsZWY0cGJmMWRtZjJucXRqdGJhdnJ2OSJ9.5yR0jnpb7zMjnGWCj_Jr-g';
-// function to translate NYC land use codes into a color and a description
 
-var FAR = (code) => {
-  switch (code) {
-    case 1:
-      return {
-        // color: '#ccc',
-        description: 'Max Residential FAR = 10',
-      };
-    case 2:
-      return {
-        // color: 'red',
-        description: 'Max Residential FAR = 7.52',
-      };
-    case 3:
-      return {
-        // color: '#FF9900',
-        description: 'Max Residential FAR = 6.02',
-      };
-    case 4:
-      return {
-        // color: '#f7cabf',
-        description: 'Max Residential FAR = 5',
-      };
-    case 5:
-      return {
-        // color: '#ea6661',
-        description: 'Max Residential FAR = 4',
-      };
-    case 6:
-      return {
-        // color: '#d36ff4',
-        description: 'Max Residential FAR = 3.44',
-      };
-      case 7:
-        return {
-          // color: 'tan',
-          description: 'Max Residential FAR = 3',
-        };
-         case 8:
-            return {
-              // color: 'white',
-              description: 'Max Residential FAR = 2.43',
-            };
-            case 9:
-                return {
-                  // color: 'yellow',
-                  description: 'Max Residential FAR = 2',
-                };
-                case 10:
-                    return {
-                      // color: 'yellow',
-                      description: 'Max Residential FAR = 1.25',
-                    };
-                    case 11:
-                        return {
-                          // color: 'yellow',
-                          description: 'Max Residential FAR = 0.9',
-                        };
-                        case 12:
-                            return {
-                              // color: 'yellow',
-                              description: 'Max Residential FAR = 0.75',
-                            };
-                            case 13:
-                                return {
-                                  // color: 'yellow',
-                                  description: 'Max Residential FAR = 0.5',
-                                };
-      }
-      };
-
-// };
 var map = new mapboxgl.Map({
 container: 'mapcontainer', // container ID
 style: 'mapbox://styles/mapbox/streets-v11', // style URL
 center: [-73.841124,40.725053], // starting position [lng, lat]
-zoom: 11.5 // starting zoom
+zoom: 9 // starting zoom
  });
+
+ map.addControl(new mapboxgl.NavigationControl({
+   showCompass: false,
+   showZoom: true
+ }));
 
  map.on('style.load', function (){
-     map.addSource('gismap', {
+     map.addSource('schooldistricts', {
         type: 'geojson',
-        data: 'data/gismap.geojson'
-
- });
-
+        data: 'data/schooldistrictsrank.geojson'})
+ //        map.addSource('hnynta', {
+ //           type: 'geojson',
+ //           data: 'data/hnynta.geojson'
+ // })
+});
+// console.log(map.getStyle().sources)
     map.addLayer({
       'id': 'fill-layer',
       'type': 'fill',
-      'source': 'gismap',
-      'layout': {},
-      'paint': {
-      'fill-color': {
-        property: 'ResidFAR',
-        stops: [
-          [0.5,'white',],
-          [0.75,'white',],
-          [0.9,'grey',],
-          [1.25,'grey',],
-          [2,'#df65b0',],
-          [2.43,'#e7298a',],
-            [3, '#d4b9da',],
-            [3.44, '#c994c7',],
-            [4, '#df65b0',],
-            [5, '#e7298a' ,],
-            [6.02, '#ce1256',],
-            [7.52,'#980043',],
-            [10, '#67001f',]
-
-        ]
-      }
-      ,
+      'source': 'schooldistricts',
+      'layout': {
+      // make layer visible by default
+      'visibility': 'visible'
+      },
+      'paint':{
+      'fill-color': [
+          'interpolate',
+          ['linear'],
+          ['get', 'rank'],
+          1, "#630FD1",
+          2, "#6817D2",
+          3, "#6E1FD4",
+          4, "#7328D5",
+          5 ,"#7830D7",
+          6 ,"#7E38D8",
+          7,"#8340DA",
+          8,"#8848DB",
+          9  ,"#8E50DD",
+          10  ,"#9359DE",
+          11,"#9861DF",
+          12,"#9E69E1",
+          13,"#A371E2",
+          14,"#A879E4",
+          15,"#AE81E5",
+          16,"#B38AE7",
+          17,"#B992E8",
+          18,"#BE9AEA",
+          19,"#C3A2EB",
+          20,"#C9AAED",
+          21,"#CEB2EE",
+          22,"#D3BBEF",
+          23,"#D9C3F1",
+          24,"#DECBF2",
+          25,"#E3D3F4",
+          26,"#E9DBF5",
+          27,"#EEE3F7",
+          28,"#F3ECF8",
+          29,"#F9F4FA",
+          30,"#FEFCFB",
+          31,"#FEFCFB",
+          32,"#FEFCFB",
+      ],
           'fill-outline-color': 'grey',
-          'fill-opacity': 0.8
-        }
-      });
+          'fill-opacity': 0.9
+        }},
+      );
+             map.addSource('hnynta', {
+                type: 'geojson',
+                data: 'data/hnynta.geojson'
+      })
+        // map.addLayer({
+        // 'id': 'units-constructed',
+        // 'type': 'fill',
+        // 'source': 'hnynta',
+        // 'layout': {
+        // // // // make layer visible by default
+        // 'visibility': 'visible'
+        // },
+        // 'paint':{
+        //        'fill-color': [
+        //             'interpolate',
+        //             ['linear'],
+        //             ['get', 'units'],
+        //             0, 'white',
+        //           1,'white',],
+              //   'step',
+              //   ['get', 'units'],
+              //   // 'red',
+              //   259, 'yellow',
+              //   // 1000, 'purple'
+              // ],
+              // 'fill-opacity': 0.7
 
+         // "red",
+        //   ["step",
+        //   ["get","units"],
+        //   "red",0,
+        //   // "#ffeda0",20,"#fed976",50,"#feb24c",100,"#fd8d3c",200,"#fc4e2a",500,"#e31a1c",750,"hsl(348, 100%, 37%)",1000,"#bd0026"
+        // ],
+        // 'fill-color': [
+        //     'interpolate',
+        //     ['linear'],
+        //     ['get', 'units'],
+        //     1,
+        //     "#630FD1",
+        //     2, "#6817D2",
+        //     3, "#6E1FD4",
+        //     4, "#7328D5",
+        //     5 ,"#7830D7",
+        //     6 ,"#7E38D8",
+        //     7,"#8340DA",
+        //     8,"#8848DB",
+        //     9  ,"#8E50DD",
+        //     10  ,"#9359DE",
+        //     11,"#9861DF",
+        //     12,"#9E69E1",
+        //     13,"#A371E2",
+        //     14,"#A879E4",
+        //     15,"#AE81E5",
+        //     16,"#B38AE7",
+        //     17,"#B992E8",
+        //     18,"#BE9AEA",
+        //     19,"#C3A2EB",
+        //     20,"#C9AAED",
+        //     21,"#CEB2EE",
+        //     22,"#D3BBEF",
+        //     23,"#D9C3F1",
+        //     24,"#DECBF2",
+        //     25,"#E3D3F4",
+        //     26,"#E9DBF5",
+        //     27,"#EEE3F7",
+        //     28,"#F3ECF8",
+        //     29,"#F9F4FA",
+        //     30,"#FEFCFB",
+        //     31,"#FEFCFB",
+        //     32,"#FEFCFB",
+      // ],
+        //     'fill-outline-color': 'grey',
+        //     'fill-opacity': 0.9
+        //   }
+        // },
+        // );
 
         // add an empty data source, which we will use to highlight the lot the user is hovering over
           map.addSource('highlight-feature', {
@@ -133,12 +166,12 @@ zoom: 11.5 // starting zoom
             type: 'line',
             source: 'highlight-feature',
             paint: {
-              'line-width': 2,
+              'line-width': 1,
               'line-opacity': 0.9,
-              'line-color': 'white',
+              'line-color': 'magenta',
             }
           });
-        })
+        // })
 
         // Create a popup, but don't add it to the map yet.
         var popup = new mapboxgl.Popup({
@@ -158,15 +191,15 @@ zoom: 11.5 // starting zoom
             // based on the feature found.
 
             var hoveredFeature = features[0]
-            var address = hoveredFeature.properties.ZoneDist1
-              var built = hoveredFeature.properties.BuiltFAR
-            var maxfar = hoveredFeature.properties.ResidFAR
+            var district = hoveredFeature.properties.schoolDistrict
+              var rank = hoveredFeature.properties.rank
+            var neighborhood = hoveredFeature.properties.neighborhood
 
             var popupContent = `
-              <div>
-              <h4>Zoning District:  ${address}</h4> <br/>
-                 <p> Built FAR =  ${built}<br/>
-              Max Residential FAR =  ${maxfar} </p>
+              <div class="inner">
+              <h4>School District ${district}</h4>
+              <h5>${neighborhood}</h5>
+            <i>  Rank: ${rank}/32
               </div>
             `
 
@@ -185,9 +218,44 @@ zoom: 11.5 // starting zoom
           }
 
         })
-  ;
 
- // })
+        // enumerate ids of the layers
+// var toggleableLayerIds = ['fill-layer', 'units-constructed'];
+//
+// // set up the corresponding toggle button for each layer
+// for (var i = 0; i < toggleableLayerIds.length; i++) {
+// var id = toggleableLayerIds[i];
+//
+// var link = document.createElement('a');
+// link.href = '#';
+// link.className = 'active';
+// link.textContent = id;
+//
+// link.onclick = function (e) {
+// var clickedLayer = this.textContent;
+// e.preventDefault();
+// e.stopPropagation();
+//
+// var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+//
+// // toggle layer visibility by changing the layout object's visibility property
+// if (visibility === 'visible') {
+// map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+// this.className = '';
+// } else {
+// this.className = 'active';
+// map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+// }
+// };
+//
+// var layers = document.getElementById('menu');
+// // layers.appendChild(link);
+// }
+
+
+//   ;
+//
+//
 // var popup = new mapboxgl.popup({})
 //  map.on('mousemove', function (e){
 //
@@ -197,3 +265,4 @@ zoom: 11.5 // starting zoom
 //
 //    console.log()
 //  })
+// );
