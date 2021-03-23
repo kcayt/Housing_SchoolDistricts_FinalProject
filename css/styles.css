@@ -33,15 +33,21 @@ body {
   right: 0;
   left: 300px;
 }
-
+#layertwo {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 300px;
+}
 h3 {
   margin-top: 0;
   font-size: 1.8rem;
 }
 
-/* .mapboxgl-marker:hover {
+.mapboxgl-marker:hover {
   cursor: pointer;
-} */
+}
 
 /* blue buttons with white bold text */
 
@@ -74,35 +80,39 @@ h3 {
   left: 0;
   top: 0;
   bottom: 0;
-  width: 300px;
+  width: 290px;
   background-color: #630FD1;
   color: #FFF;
   padding: 25px;
-  box-sizing: border-box;
+  /* box-sizing: border-box; */
 }
 
-/* #menu {
-  background: #fff;
+#menu {
+  background: #630FD1;
   position: absolute;
   z-index: 1;
-  top: 10px;
+  top: 5px;
   right: 10px;
   border-radius: 3px;
   width: 120px;
-  border: 1px solid rgba(0, 0, 0, 0.4);
+  height: 30px;
+  border: 3px solid rgba(0, 0, 0, 0.4);
   font-family: 'Open Sans', sans-serif;
+  align-content: center;
 }
 
 #menu a {
   font-size: 13px;
-  color: #404040;
+  color: white
   display: block;
-  margin: 0;
-  padding: 0;
+  margin: 10;
+  padding: 10;
   padding: 10px;
-  text-decoration: none;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
-  text-align: center;
+  text-decoration: underline;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.25);
+  text-align: justify;
+  align-content: center;
+  text-decoration-color: #fff
 }
 
 #menu a:last-child {
@@ -111,13 +121,13 @@ h3 {
 
 #menu a:hover {
   background-color: #f8f8f8;
-  color: #404040; */
-  /* }
-/* #menu a.active {
+  color: #fff;
+   }
+ #menu a.active {
   background-color: #3887be;
   color: #ffffff;
 }
 
 #menu a.active:hover {
-  background: #3074a4; */
-/* } */
+  background: #3074a4;
+}

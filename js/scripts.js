@@ -1,198 +1,182 @@
-
-
 mapboxgl.accessToken = 'pk.eyJ1Ijoia2NheXQiLCJhIjoiY2tsZWY0cGJmMWRtZjJucXRqdGJhdnJ2OSJ9.5yR0jnpb7zMjnGWCj_Jr-g';
 
 var map = new mapboxgl.Map({
-container: 'mapcontainer', // container ID
-style: 'mapbox://styles/mapbox/streets-v11', // style URL
-center: [-73.841124,40.725053], // starting position [lng, lat]
-zoom: 9 // starting zoom
- });
-
- map.addControl(new mapboxgl.NavigationControl({
-   showCompass: false,
-   showZoom: true
- }));
-
- map.on('style.load', function (){
-     map.addSource('schooldistricts', {
-        type: 'geojson',
-        data: 'data/schooldistrictsrank.geojson'})
- //        map.addSource('hnynta', {
- //           type: 'geojson',
- //           data: 'data/hnynta.geojson'
- // })
+    container: 'mapcontainer', // container ID
+    style: 'mapbox://styles/mapbox/streets-v11', // style URL
+    center: [-73.841124, 40.725053], // starting position [lng, lat]
+    zoom: 9 // starting zoom
 });
-// console.log(map.getStyle().sources)
+
+map.addControl(new mapboxgl.NavigationControl({
+    showCompass: false,
+    showZoom: true
+}));
+
+map.on('style.load', function() {
+    map.addSource('schooldistricts', {
+        type: 'geojson',
+        data: 'data/schooldistrictsrank.geojson'
+    })
+    //        map.addSource('hnynta', {
+    //           type: 'geojson',
+    //           data: 'data/hnynta.geojson'
+    // })
+    // });
+    // console.log(map.getStyle().sources)
     map.addLayer({
-      'id': 'fill-layer',
-      'type': 'fill',
-      'source': 'schooldistricts',
-      'layout': {
-      // make layer visible by default
-      'visibility': 'visible'
-      },
-      'paint':{
-      'fill-color': [
-          'interpolate',
-          ['linear'],
-          ['get', 'rank'],
-          1, "#630FD1",
-          2, "#6817D2",
-          3, "#6E1FD4",
-          4, "#7328D5",
-          5 ,"#7830D7",
-          6 ,"#7E38D8",
-          7,"#8340DA",
-          8,"#8848DB",
-          9  ,"#8E50DD",
-          10  ,"#9359DE",
-          11,"#9861DF",
-          12,"#9E69E1",
-          13,"#A371E2",
-          14,"#A879E4",
-          15,"#AE81E5",
-          16,"#B38AE7",
-          17,"#B992E8",
-          18,"#BE9AEA",
-          19,"#C3A2EB",
-          20,"#C9AAED",
-          21,"#CEB2EE",
-          22,"#D3BBEF",
-          23,"#D9C3F1",
-          24,"#DECBF2",
-          25,"#E3D3F4",
-          26,"#E9DBF5",
-          27,"#EEE3F7",
-          28,"#F3ECF8",
-          29,"#F9F4FA",
-          30,"#FEFCFB",
-          31,"#FEFCFB",
-          32,"#FEFCFB",
-      ],
-          'fill-outline-color': 'grey',
-          'fill-opacity': 0.9
-        }},
-      );
-             map.addSource('hnynta', {
-                type: 'geojson',
-                data: 'data/hnynta.geojson'
-      })
-        // map.addLayer({
-        // 'id': 'units-constructed',
-        // 'type': 'fill',
-        // 'source': 'hnynta',
-        // 'layout': {
-        // // // // make layer visible by default
-        // 'visibility': 'visible'
-        // },
-        // 'paint':{
-        //        'fill-color': [
-        //             'interpolate',
-        //             ['linear'],
-        //             ['get', 'units'],
-        //             0, 'white',
-        //           1,'white',],
-              //   'step',
-              //   ['get', 'units'],
-              //   // 'red',
-              //   259, 'yellow',
-              //   // 1000, 'purple'
-              // ],
-              // 'fill-opacity': 0.7
+        'id': 'fill-layer',
+        'type': 'fill',
+        'source': 'schooldistricts',
+        'layout': {
+            // make layer visible by default
+            'visibility': 'visible'
+        },
+        'paint': {
+            'fill-color': [
+                'interpolate',
+                ['linear'],
+                ['get', 'rank'],
+                1, "#630FD1",
+                2, "#6817D2",
+                3, "#6E1FD4",
+                4, "#7328D5",
+                5, "#7830D7",
+                6, "#7E38D8",
+                7, "#8340DA",
+                8, "#8848DB",
+                9, "#8E50DD",
+                10, "#9359DE",
+                11, "#9861DF",
+                12, "#9E69E1",
+                13, "#A371E2",
+                14, "#A879E4",
+                15, "#AE81E5",
+                16, "#B38AE7",
+                17, "#B992E8",
+                18, "#BE9AEA",
+                19, "#C3A2EB",
+                20, "#C9AAED",
+                21, "#CEB2EE",
+                22, "#D3BBEF",
+                23, "#D9C3F1",
+                24, "#DECBF2",
+                25, "#E3D3F4",
+                26, "#E9DBF5",
+                27, "#EEE3F7",
+                28, "#F3ECF8",
+                29, "#F9F4FA",
+                30, "#FEFCFB",
+                31, "#FEFCFB",
+                32, "#FEFCFB",
+            ],
+            'fill-outline-color': 'grey',
+            'fill-opacity': 0.9
+        }
+    }, );
+    map.addSource('hnynta', {
+        type: 'geojson',
+        data: 'data/hnynta.geojson'
+    })
+    //globals for the choropleth
+    var COLORS = ['#8c510a', '#d8b365', '#f6e8c3', '#c7eae5', '#5ab4ac', '#01665e'],
+        BREAKS = [0, 1, 100, 500, 1000, 1500, 2000, 2500, 10000],
+        FILTERUSE;
+    map.addLayer({
+        'id': 'layertwo',
+        'type': 'fill',
+        'source': 'hnynta',
+        'layout': {
+            // make layer visible by default
+            'visibility': 'visible'
+        },
+        "paint": {
+            'fill-color': {
+                property:'units',
+                stops: [
+                    [BREAKS[0], "#630FD1"],
+                    [BREAKS[1], "#6817D2"],
+                    [BREAKS[2], "#6E1FD4"],
+                    [BREAKS[3], "#7328D5"],
+                    [BREAKS[4], "#7830D7"],
+                    [BREAKS[5], "#7E38D8"]
+                ]
+            },
+            // 7,"#8340DA",
+            // 8,"#8848DB",
+            // 9  ,"#8E50DD",
+            // 10  ,"#9359DE",
+            // 11,"#9861DF",
+            "fill-opacity": 0.7,
+            "fill-outline-color": "#ffffff"
+        }
+    });
+    // });
+    // map.addLayer({
+    //   'id': 'layerthree',
+    //   'type': 'fill',
+    //   'source': 'hnynta',
+    //   'layout': {
+    //   // make layer visible by default
+    //   'visibility': 'visible'
+    //   },
+    //   "paint": {
+    //               "fill-color":{
+    //               // {'red'}
+    //                   property: 'NTACode',
+    //                   stops: [
+    //               //       [100, 'blue'],
+    //               // [200, 'yellow'],
+    //               // [300, 'red'],
+    //               //      ]
+    //               // },
 
-         // "red",
-        //   ["step",
-        //   ["get","units"],
-        //   "red",0,
-        //   // "#ffeda0",20,"#fed976",50,"#feb24c",100,"#fd8d3c",200,"#fc4e2a",500,"#e31a1c",750,"hsl(348, 100%, 37%)",1000,"#bd0026"
-        // ],
-        // 'fill-color': [
-        //     'interpolate',
-        //     ['linear'],
-        //     ['get', 'units'],
-        //     1,
-        //     "#630FD1",
-        //     2, "#6817D2",
-        //     3, "#6E1FD4",
-        //     4, "#7328D5",
-        //     5 ,"#7830D7",
-        //     6 ,"#7E38D8",
-        //     7,"#8340DA",
-        //     8,"#8848DB",
-        //     9  ,"#8E50DD",
-        //     10  ,"#9359DE",
-        //     11,"#9861DF",
-        //     12,"#9E69E1",
-        //     13,"#A371E2",
-        //     14,"#A879E4",
-        //     15,"#AE81E5",
-        //     16,"#B38AE7",
-        //     17,"#B992E8",
-        //     18,"#BE9AEA",
-        //     19,"#C3A2EB",
-        //     20,"#C9AAED",
-        //     21,"#CEB2EE",
-        //     22,"#D3BBEF",
-        //     23,"#D9C3F1",
-        //     24,"#DECBF2",
-        //     25,"#E3D3F4",
-        //     26,"#E9DBF5",
-        //     27,"#EEE3F7",
-        //     28,"#F3ECF8",
-        //     29,"#F9F4FA",
-        //     30,"#FEFCFB",
-        //     31,"#FEFCFB",
-        //     32,"#FEFCFB",
-      // ],
-        //     'fill-outline-color': 'grey',
-        //     'fill-opacity': 0.9
-        //   }
-        // },
-        // );
+    // map.on("mousemove", function (e) {
+    //        var features = map.queryRenderedFeatures(e.point, {
+    //            layers: ["layertwo"]
+    //            });
 
-        // add an empty data source, which we will use to highlight the lot the user is hovering over
-          map.addSource('highlight-feature', {
-            type: 'geojson',
-            data: {
-              type: 'FeatureCollection',
-              features: []
-            }
-          })
+    // add an empty data source, which we will use to highlight the lot the user is hovering over
+    map.addSource('highlight-feature', {
+        type: 'geojson',
+        data: {
+            type: 'FeatureCollection',
+            features: []
+        }
+    })
 
-          // add a layer for the highlighted lot
-          map.addLayer({
-            id: 'highlight-line',
-            type: 'line',
-            source: 'highlight-feature',
-            paint: {
-              'line-width': 1,
-              'line-opacity': 0.9,
-              'line-color': 'magenta',
-            }
-          });
-        // })
+    // add a layer for the highlighted lot
+    map.addLayer({
+        id: 'highlight-line',
+        type: 'line',
+        source: 'highlight-feature',
+        paint: {
+            'line-width': 1,
+            'line-opacity': 0.9,
+            'line-color': 'magenta',
+        }
+    });
+    // })
 
-        // Create a popup, but don't add it to the map yet.
-        var popup = new mapboxgl.Popup({
-          closeButton: false,
-          closeOnClick: false
+    // Create a popup, but don't add it to the map yet.
+    var popup = new mapboxgl.Popup({
+        closeButton: false,
+        closeOnClick: false
+    });
+
+    map.on('mousemove', function(e) {
+        // query for the features under the mouse, but only in the lots layer
+        var features = map.queryRenderedFeatures(e.point, {
+            layers: ['fill-layer', 'layertwo'],
         });
 
-        map.on('mousemove', function (e) {
-          // query for the features under the mouse, but only in the lots layer
-          var features = map.queryRenderedFeatures(e.point, {
-              layers: ['fill-layer'],
-          });
-
-          if (features.length > 0) {
+        if (features.length > 0) {
             // show the popup
             // Populate the popup and set its coordinates
             // based on the feature found.
 
             var hoveredFeature = features[0]
             var district = hoveredFeature.properties.schoolDistrict
-              var rank = hoveredFeature.properties.rank
+            var rank = hoveredFeature.properties.rank
             var neighborhood = hoveredFeature.properties.neighborhood
 
             var popupContent = `
@@ -210,49 +194,49 @@ zoom: 9 // starting zoom
 
             // show the cursor as a pointer
             map.getCanvas().style.cursor = 'pointer';
-          } else {
+        } else {
             // remove the Popup
             popup.remove();
 
             map.getCanvas().style.cursor = '';
-          }
+        }
 
-        })
+    })
 
-        // enumerate ids of the layers
-// var toggleableLayerIds = ['fill-layer', 'units-constructed'];
-//
-// // set up the corresponding toggle button for each layer
-// for (var i = 0; i < toggleableLayerIds.length; i++) {
-// var id = toggleableLayerIds[i];
-//
-// var link = document.createElement('a');
-// link.href = '#';
-// link.className = 'active';
-// link.textContent = id;
-//
-// link.onclick = function (e) {
-// var clickedLayer = this.textContent;
-// e.preventDefault();
-// e.stopPropagation();
-//
-// var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
-//
-// // toggle layer visibility by changing the layout object's visibility property
-// if (visibility === 'visible') {
-// map.setLayoutProperty(clickedLayer, 'visibility', 'none');
-// this.className = '';
-// } else {
-// this.className = 'active';
-// map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
-// }
-// };
-//
-// var layers = document.getElementById('menu');
-// // layers.appendChild(link);
-// }
+    // enumerate ids of the layers
+    var toggleableLayerIds = ['fill-layer', 'layertwo'];
 
+    // set up the corresponding toggle button for each layer
+    for (var i = 0; i < toggleableLayerIds.length; i++) {
+        var id = toggleableLayerIds[i];
 
+        var link = document.createElement('a');
+        link.href = '#';
+        link.className = 'active';
+        link.textContent = id;
+
+        link.onclick = function(e) {
+            var clickedLayer = this.textContent;
+            e.preventDefault();
+            e.stopPropagation();
+
+            var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+
+            // toggle layer visibility by changing the layout object's visibility property
+            if (visibility === 'visible') {
+                map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+                this.className = '';
+            } else {
+                this.className = 'active';
+                map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+            }
+        };
+
+        var layers = document.getElementById('menu');
+        layers.appendChild(link);
+    }
+    // });
+});
 //   ;
 //
 //
@@ -260,7 +244,7 @@ zoom: 9 // starting zoom
 //  map.on('mousemove', function (e){
 //
 //    var features = map.queryRenderedFeatures(e.point, {
-//      layers: ['filllayer']
+//      layers: ['filllayer', "units-constructed"]
 //    });
 //
 //    console.log()
