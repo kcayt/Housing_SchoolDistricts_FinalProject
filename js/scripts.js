@@ -24,7 +24,7 @@ map.on('style.load', function() {
     // });
     // console.log(map.getStyle().sources)
     map.addLayer({
-        'id': 'fill-layer',
+        'id': 'Schools',
         'type': 'fill',
         'source': 'schooldistricts',
         'layout': {
@@ -83,7 +83,7 @@ map.on('style.load', function() {
         FILTERUSE
         ;
     map.addLayer({
-        'id': 'layertwo',
+        'id': 'Housing',
         'type': 'fill',
         'source': 'hnynta',
         'layout': {
@@ -108,39 +108,11 @@ map.on('style.load', function() {
                     // [BREAKS[11],"#630FD1"]
                 ]
             },
-            // 7,"#8340DA",
-            // 8,"#8848DB",
-            // 9  ,"#8E50DD",
-            // 10  ,"#9359DE",
-            // 11,"#9861DF",
+
             "fill-opacity": 0.85,
             "fill-outline-color": "#ffffff"
         }
     });
-    // });
-    // map.addLayer({
-    //   'id': 'layerthree',
-    //   'type': 'fill',
-    //   'source': 'hnynta',
-    //   'layout': {
-    //   // make layer visible by default
-    //   'visibility': 'visible'
-    //   },
-    //   "paint": {
-    //               "fill-color":{
-    //               // {'red'}
-    //                   property: 'NTACode',
-    //                   stops: [
-    //               //       [100, 'blue'],
-    //               // [200, 'yellow'],
-    //               // [300, 'red'],
-    //               //      ]
-    //               // },
-
-    // map.on("mousemove", function (e) {
-    //        var features = map.queryRenderedFeatures(e.point, {
-    //            layers: ["layertwo"]
-    //            });
 
     // add an empty data source, which we will use to highlight the lot the user is hovering over
     map.addSource('highlight-feature', {
@@ -150,6 +122,10 @@ map.on('style.load', function() {
             features: []
         }
     })
+    // set the default text for the feature-info div
+
+    var defaultText = '<p>Move the mouse over the map to get more info on a school district or neighborhood</p>'
+    $('#feature-info').html(defaultText)
 
     // add a layer for the highlighted lot
     map.addLayer({
@@ -159,7 +135,7 @@ map.on('style.load', function() {
         paint: {
             'line-width': 1,
             'line-opacity': 0.9,
-            'line-color': 'magenta',
+            'line-color': '#FAAE7B',
         }
     });
     // })
@@ -173,35 +149,36 @@ map.on('style.load', function() {
     map.on('mousemove', function(e) {
         // query for the features under the mouse, but only in the lots layer
         var features = map.queryRenderedFeatures(e.point, {
-            layers: ['fill-layer'],
+            layers: ['Schools'],
         });
 
         if (features.length > 0) {
-            // show the popup
-            // Populate the popup and set its coordinates
-            // based on the feature found.
-
+        //     // show the popup
+        //     // Populate the popup and set its coordinates
+        //     // based on the feature found.
+        //
             var hoveredFeature = features[0]
-            var district = hoveredFeature.properties.schoolDistrict
-            var rank = hoveredFeature.properties.rank
-            var neighborhood = hoveredFeature.properties.neighborhood
-
-            var popupContent = `
-              <div class="inner">
-              <h4>School District ${district}</h4>
-              <h5>${neighborhood}</h5>
-            <i>  Rank: ${rank}/32
-              </div>
-            `
-
-            popup.setLngLat(e.lngLat).setHTML(popupContent).addTo(map);
+        //     var district = hoveredFeature.properties.schoolDistrict
+        //     var rank = hoveredFeature.properties.rank
+        //     var neighborhood = hoveredFeature.properties.neighborhood
+        //
+        //     var popupContent = `
+        //       <div class="inner">
+        //       <h4>School District ${district}</h4>
+        //       <h5>${neighborhood}</h5>
+        //     <i>  Rank: ${rank}/32
+        //       </div>
+        //     `
+        //
+        //     popup.setLngLat(e.lngLat).setHTML(popupContent).addTo(map);
 
             // set this lot's polygon feature as the data for the highlight source
             map.getSource('highlight-feature').setData(hoveredFeature.geometry);
 
             // show the cursor as a pointer
             map.getCanvas().style.cursor = 'pointer';
-        } else {
+        }
+        else {
             // remove the Popup
             popup.remove();
 
@@ -212,7 +189,7 @@ map.on('style.load', function() {
     map.on('mousemove', function(e) {
         // query for the features under the mouse, but only in the lots layer
         var features = map.queryRenderedFeatures(e.point, {
-            layers: ['layertwo'],
+            layers: ['Housing'],
         });
 
         if (features.length > 0) {
@@ -223,7 +200,7 @@ map.on('style.load', function() {
             var hoveredFeature = features[0]
             var units = hoveredFeature.properties.units
             var neighborhood = hoveredFeature.properties.NTAName
-            var district = hoveredFeature.properties.schoolDistrict
+            // var district = hoveredFeature.properties.schoolDistrict
             // var neighborhood = hoveredFeature.properties.neighborhood
 
             var popupContent = `
@@ -249,7 +226,7 @@ map.on('style.load', function() {
 
     })
     // enumerate ids of the layers
-    var toggleableLayerIds = ['fill-layer', 'layertwo'];
+    var toggleableLayerIds = ['Schools', 'Housing'];
 
     // set up the corresponding toggle button for each layer
     for (var i = 0; i < toggleableLayerIds.length; i++) {
@@ -280,18 +257,85 @@ map.on('style.load', function() {
         var layers = document.getElementById('menu');
         layers.appendChild(link);
     }
-    // });
+    map.on('mousemove', function (e) {
+    // query for the features under the mouse, but only in the lots layer
+    var features = map.queryRenderedFeatures(e.point, {
+        layers: ['Schools'],
+    });
+    if (features.length > 0) {
+      map.getCanvas().style.cursor = 'pointer';  // make the cursor a pointer
+
+      var hoveredFeature = features[0]
+    var featureInfo = `
+    <h4><u>School District ${hoveredFeature.properties.schoolDistrict}</u><br> Rank: ${hoveredFeature.properties.rank}</h4>
+  <p><strong> Percent of Homeless Students:</strong> ${hoveredFeature.properties.percenthomeless}%
+      <br>  <strong>Neighborhood:</strong> ${hoveredFeature.properties.neighborhood}
+        <br><strong>Mean 4th Grade Math Score:</strong> ${hoveredFeature.properties.meanmathscore}</p>
+      `
+      $('#feature-info').html(featureInfo)
+    } else {
+      // if there is no feature under the mouse, reset things:
+      map.getCanvas().style.cursor = 'default'; // make the cursor default
+
+      // reset the highlight source to an empty featurecollection
+
+
+    map.on('mousemove', function (e) {
+      // query for the features under the mouse, but only in the lots layer
+      var features = map.queryRenderedFeatures(e.point, {
+          layers: [ 'Housing'],
+      });
+      if (features.length > 0) {
+        map.getCanvas().style.cursor = 'pointer';  // make the cursor a pointer
+
+        var hoveredFeature = features[0]
+      var featureInfo = `
+      <p><strong>Number of 2 BR+ units created under DeBlasio:</strong></strongg> ${hoveredFeature.properties.units}</h4>
+          <p><strong>Neighborhood Tabulation Area:</strong> ${hoveredFeature.properties.NTAName}</p>
+        `
+        $('#feature-info').html(featureInfo)
+      } else {
+        // if there is no feature under the mouse, reset things:
+        map.getCanvas().style.cursor = 'pointer'; // make the cursor default
+        var popup = new mapboxgl.Popup({
+            closeButton: false,
+            closeOnClick: false
+        });
+
+        map.on('mousemove', function(e) {
+            // query for the features under the mouse, but only in the lots layer
+            var features = map.queryRenderedFeatures(e.point, {
+                layers: ['Schools'],
+            });
+
+            if (features.length > 0) {
+                // show the popup
+                // Populate the popup and set its coordinates
+                // based on the feature found.
+
+                var hoveredFeature = features[0]
+                var district = hoveredFeature.properties.schoolDistrict
+                var rank = hoveredFeature.properties.rank
+                var neighborhood = hoveredFeature.properties.neighborhood
+
+                var popupContent = `
+                  <div class="inner">
+                  <h4>School District ${district}</h4>
+                  <h5>${neighborhood}</h5>
+                <i>  Rank: ${rank}/32
+                  </div>
+                `
+
+                popup.setLngLat(e.lngLat).setHTML(popupContent).addTo(map);
+
+
+};
+
+} )
+};
 });
-//   ;
-//
-//
-// var popup = new mapboxgl.popup({})
-//  map.on('mousemove', function (e){
-//
-//    var features = map.queryRenderedFeatures(e.point, {
-//      layers: ['filllayer', "units-constructed"]
-//    });
-//
-//    console.log()
-//  })
-// );
+
+  };
+  ;
+});
+});
