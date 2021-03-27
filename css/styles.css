@@ -1,6 +1,7 @@
 html, body, .container, #sidebar, #mapcontainer {
   height: 100%;
-  margin: 0;
+  margin: 0px;
+  padding: 0px
 }
 
 .container {
@@ -12,7 +13,7 @@ html, body, .container, #sidebar, #mapcontainer {
   width: 250px;
 }
 
-#mapcontainer {
+ #mapcontainer {
   flex-grow: 1;
 }
 html {
@@ -21,18 +22,20 @@ font-family: 'verdana', sans-serif;
 
 /* get rid of the browser's default margin and padding around the body */
 body {
-  margin: 0;
-  padding: 0;
+  margin: 0px;
+  padding: 0px;
 }
 
 /* absolute position the map container as full screen, leaving 300 pixels on the left */
-#mapcontainer {
+ #mapcontainer {
   position: absolute;
   top: 0;
   bottom: 0;
   right: 0;
   left: 300px;
-}
+   /* width: 100px;
+     z-index: 0; */
+ }
 #layertwo {
   position: absolute;
   top: 0;
@@ -62,17 +65,17 @@ h3 {
   margin-bottom:15px;
 }
 
-/* on hover, make the background darker and turn the cursor to a pointer */
-/* button:hover {
+ on hover, make the background darker and turn the cursor to a pointer */
+button:hover {
   cursor: pointer;
-  background-color: #006987;
+  /* background-color: #ffffff; */
 }
 
 #feature-info {
   background: #41779c;
   padding: 15px;
   min-height: 150px;
-} */
+}
 
 /* sidebar is fixed with and positioned to the left */
 #sidebar {
@@ -82,52 +85,70 @@ h3 {
   bottom: 0;
   width: 290px;
   background-color: #630FD1;
-  color: #FFF;
+  color: #FAAE7B;
   padding: 25px;
   /* box-sizing: border-box; */
 }
 
 #menu {
-  background: #630FD1;
+  background: #FAAE7B;
   position: absolute;
   z-index: 1;
   top: 5px;
   right: 10px;
   border-radius: 3px;
+  border: 2px solid black;
   width: 120px;
-  height: 30px;
-  border: 3px solid rgba(0, 0, 0, 0.4);
+  height: 0px;
+  border: 0px solid rgba(0, 0, 0, 0.4);
   font-family: 'Open Sans', sans-serif;
   align-content: center;
 }
 
 #menu a {
-  font-size: 13px;
-  color: white
+  font-size: 14px;
   display: block;
   margin: 10;
-  padding: 10;
   padding: 10px;
-  text-decoration: underline;
-  border-bottom: 2px solid rgba(0, 0, 0, 0.25);
-  text-align: justify;
+  text-decoration: none;
+  border-width: 1px;
+  border: 2px solid black;
+  text-align: center;
   align-content: center;
-  text-decoration-color: #fff
 }
 
-#menu a:last-child {
+/* #menu a:last-child {
   border: none;
-}
+    background-color: #FAAE7B
+} */
 
 #menu a:hover {
-  background-color: #f8f8f8;
-  color: #fff;
+  background-color: #FAAE7B;
+  color: white;
+  border: 2px solid black;
    }
  #menu a.active {
-  background-color: #3887be;
-  color: #ffffff;
+  background-color: #FAAE7B
+;
+border: 2px solid black;
 }
 
 #menu a.active:hover {
-  background: #3074a4;
+  background: #EDE342;
+  background-color: #EDE342;
+border: 2px solid black;
 }
+
+/* #layers {
+text-decoration: underline;
+color: #ffffff
+
+} */
+/* #mapcontainer {
+ position: absolute;
+ top: 0px;
+ bottom: 0px;
+ right: 0px;
+ left: 0px;
+ padding: 300px;
+} */

@@ -3,8 +3,8 @@ mapboxgl.accessToken = 'pk.eyJ1Ijoia2NheXQiLCJhIjoiY2tsZWY0cGJmMWRtZjJucXRqdGJhd
 var map = new mapboxgl.Map({
     container: 'mapcontainer', // container ID
     style: 'mapbox://styles/mapbox/streets-v11', // style URL
-    center: [-73.841124, 40.725053], // starting position [lng, lat]
-    zoom: 9 // starting zoom
+    center: [-73.980789,40.747777], // starting position [lng, lat]
+    zoom: 9.5 // starting zoom
 });
 
 map.addControl(new mapboxgl.NavigationControl({
@@ -78,9 +78,10 @@ map.on('style.load', function() {
         data: 'data/hnynta.geojson'
     })
     //globals for the choropleth
-    var COLORS = ['#8c510a', '#d8b365', '#f6e8c3', '#c7eae5', '#5ab4ac', '#01665e'],
-        BREAKS = [0, 1, 100, 500, 1000, 1500, 2000, 2500, 10000],
-        FILTERUSE;
+    var  COLORS = ['#8c510a', '#d8b365', '#f6e8c3', '#c7eae5', '#5ab4ac', '#01665e'],
+        BREAKS = [ 0, 3, 8, 30, 111, 172, 332, 513, 790, 1473, 9876],
+        FILTERUSE
+        ;
     map.addLayer({
         'id': 'layertwo',
         'type': 'fill',
@@ -93,12 +94,18 @@ map.on('style.load', function() {
             'fill-color': {
                 property:'units',
                 stops: [
-                    [BREAKS[0], "#630FD1"],
-                    [BREAKS[1], "#6817D2"],
-                    [BREAKS[2], "#6E1FD4"],
-                    [BREAKS[3], "#7328D5"],
-                    [BREAKS[4], "#7830D7"],
-                    [BREAKS[5], "#7E38D8"]
+                    [BREAKS[0], "#ffffff"],
+                    [BREAKS[1], "#FEFCFB"],
+                    [BREAKS[2], "#EFE4F7"],
+                    [BREAKS[3], "#DFCDF3"],
+                    [BREAKS[4], "#D0B5EE"],
+                    [BREAKS[5], "#C09DEA"],
+                    [BREAKS[6], "#B186E6"],
+                    [BREAKS[7], "#A16EE2"],
+                    [BREAKS[8], "#9256DE"],
+                    [BREAKS[9], "#823ED9"],
+                    [BREAKS[10],"#630FD1"]
+                    // [BREAKS[11],"#630FD1"]
                 ]
             },
             // 7,"#8340DA",
@@ -106,7 +113,7 @@ map.on('style.load', function() {
             // 9  ,"#8E50DD",
             // 10  ,"#9359DE",
             // 11,"#9861DF",
-            "fill-opacity": 0.7,
+            "fill-opacity": 0.85,
             "fill-outline-color": "#ffffff"
         }
     });
@@ -166,7 +173,7 @@ map.on('style.load', function() {
     map.on('mousemove', function(e) {
         // query for the features under the mouse, but only in the lots layer
         var features = map.queryRenderedFeatures(e.point, {
-            layers: ['fill-layer', 'layertwo'],
+            layers: ['fill-layer'],
         });
 
         if (features.length > 0) {
@@ -202,14 +209,52 @@ map.on('style.load', function() {
         }
 
     })
+    map.on('mousemove', function(e) {
+        // query for the features under the mouse, but only in the lots layer
+        var features = map.queryRenderedFeatures(e.point, {
+            layers: ['layertwo'],
+        });
 
+        if (features.length > 0) {
+            // show the popup
+            // Populate the popup and set its coordinates
+            // based on the feature found.
+
+            var hoveredFeature = features[0]
+            var units = hoveredFeature.properties.units
+            var neighborhood = hoveredFeature.properties.NTAName
+            var district = hoveredFeature.properties.schoolDistrict
+            // var neighborhood = hoveredFeature.properties.neighborhood
+
+            var popupContent = `
+              <div class="inner">
+              <h4> ${units} units created</h4>
+              <h5>${neighborhood}</h5>
+              </div>
+            `
+
+            popup.setLngLat(e.lngLat).setHTML(popupContent).addTo(map);
+
+            // set this lot's polygon feature as the data for the highlight source
+            map.getSource('highlight-feature').setData(hoveredFeature.geometry);
+
+            // show the cursor as a pointer
+            map.getCanvas().style.cursor = 'pointer';
+        } else {
+            // remove the Popup
+            popup.remove();
+
+            map.getCanvas().style.cursor = '';
+        }
+
+    })
     // enumerate ids of the layers
     var toggleableLayerIds = ['fill-layer', 'layertwo'];
 
     // set up the corresponding toggle button for each layer
     for (var i = 0; i < toggleableLayerIds.length; i++) {
         var id = toggleableLayerIds[i];
-
+        var buttontext = ['School Districts', 'Housing Units']
         var link = document.createElement('a');
         link.href = '#';
         link.className = 'active';
