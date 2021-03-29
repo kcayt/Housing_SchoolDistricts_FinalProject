@@ -3,7 +3,7 @@ mapboxgl.accessToken = 'pk.eyJ1Ijoia2NheXQiLCJhIjoiY2tsZWY0cGJmMWRtZjJucXRqdGJhd
 var map = new mapboxgl.Map({
     container: 'mapcontainer', // container ID
     style: 'mapbox://styles/mapbox/streets-v11', // style URL
-    center: [-73.980789,40.747777], // starting position [lng, lat]
+    center: [-73.956757,40.702158], // starting position [lng, lat]
     zoom: 9.5 // starting zoom
 });
 
@@ -17,12 +17,7 @@ map.on('style.load', function() {
         type: 'geojson',
         data: 'data/schooldistrictsrank.geojson'
     })
-    //        map.addSource('hnynta', {
-    //           type: 'geojson',
-    //           data: 'data/hnynta.geojson'
-    // })
-    // });
-    // console.log(map.getStyle().sources)
+
     map.addLayer({
         'id': 'Schools',
         'type': 'fill',
@@ -94,18 +89,18 @@ map.on('style.load', function() {
             'fill-color': {
                 property:'units',
                 stops: [
+                    // [BREAKS[0], "#ffffff"],
                     [BREAKS[0], "#ffffff"],
-                    [BREAKS[1], "#FEFCFB"],
-                    [BREAKS[2], "#EFE4F7"],
-                    [BREAKS[3], "#DFCDF3"],
-                    [BREAKS[4], "#D0B5EE"],
-                    [BREAKS[5], "#C09DEA"],
-                    [BREAKS[6], "#B186E6"],
-                    [BREAKS[7], "#A16EE2"],
-                    [BREAKS[8], "#9256DE"],
-                    [BREAKS[9], "#823ED9"],
+                    [BREAKS[1], "#EFE4F7"],
+                    [BREAKS[2], "#DFCDF3"],
+                    [BREAKS[3], "#D0B5EE"],
+                    [BREAKS[4], "#C09DEA"],
+                    [BREAKS[5], "#B186E6"],
+                    [BREAKS[6], "#A16EE2"],
+                    [BREAKS[7], "#9256DE"],
+                    [BREAKS[8], "#823ED9"],
+                    [BREAKS[9],"#630FD1"],
                     [BREAKS[10],"#630FD1"]
-                    // [BREAKS[11],"#630FD1"]
                 ]
             },
 
@@ -124,7 +119,7 @@ map.on('style.load', function() {
     })
     // set the default text for the feature-info div
 
-    var defaultText = '<p>Move the mouse over the map to get more info on a school district or neighborhood</p>'
+    var defaultText = '<p>Move the mouse over map to see detail on a school quality and housing creation in a neighborhood</p>'
     $('#feature-info').html(defaultText)
 
     // add a layer for the highlighted lot
@@ -149,7 +144,7 @@ map.on('style.load', function() {
     map.on('mousemove', function(e) {
         // query for the features under the mouse, but only in the lots layer
         var features = map.queryRenderedFeatures(e.point, {
-            layers: ['Schools'],
+            layers: ['Schools', 'highlight-line'],
         });
 
         if (features.length > 0) {
@@ -189,7 +184,7 @@ map.on('style.load', function() {
     map.on('mousemove', function(e) {
         // query for the features under the mouse, but only in the lots layer
         var features = map.queryRenderedFeatures(e.point, {
-            layers: ['Housing'],
+            layers: ['Housing', 'highlight-line'],
         });
 
         if (features.length > 0) {
@@ -221,7 +216,7 @@ map.on('style.load', function() {
             // remove the Popup
             popup.remove();
 
-            map.getCanvas().style.cursor = '';
+            map.getCanvas().style.cursor = 'auto';
         }
 
     })
@@ -290,7 +285,7 @@ map.on('style.load', function() {
 
         var hoveredFeature = features[0]
       var featureInfo = `
-      <p><strong>Number of 2 BR+ units created under DeBlasio:</strong></strongg> ${hoveredFeature.properties.units}</h4>
+      <p><strong>Number of 2 BR+ units created under Mayor Bill de Blasio:</strong></strongg> ${hoveredFeature.properties.units}</h4>
           <p><strong>Neighborhood Tabulation Area:</strong> ${hoveredFeature.properties.NTAName}</p>
         `
         $('#feature-info').html(featureInfo)
