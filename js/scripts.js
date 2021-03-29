@@ -153,20 +153,7 @@ map.on('style.load', function() {
         //     // based on the feature found.
         //
             var hoveredFeature = features[0]
-        //     var district = hoveredFeature.properties.schoolDistrict
-        //     var rank = hoveredFeature.properties.rank
-        //     var neighborhood = hoveredFeature.properties.neighborhood
-        //
-        //     var popupContent = `
-        //       <div class="inner">
-        //       <h4>School District ${district}</h4>
-        //       <h5>${neighborhood}</h5>
-        //     <i>  Rank: ${rank}/32
-        //       </div>
-        //     `
-        //
-        //     popup.setLngLat(e.lngLat).setHTML(popupContent).addTo(map);
-
+      
             // set this lot's polygon feature as the data for the highlight source
             map.getSource('highlight-feature').setData(hoveredFeature.geometry);
 
