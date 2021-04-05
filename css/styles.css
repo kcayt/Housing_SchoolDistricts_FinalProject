@@ -13,7 +13,7 @@ html, body, .container, #sidebar, #mapcontainer {
   flex-grow: 1;
 }
 html {
-font-family: 'verdana', sans-serif;
+font-family: 'Calibri', sans-serif;
 }
 
 /* get rid of the browser's default margin and padding around the body */
@@ -28,16 +28,19 @@ body {
   top: 0;
   bottom: 0;
   right: 0;
-  left: 290px;
+  left: 350px;
    /* width: 100px;
      z-index: 0; */
  }
 
-h3 {
+/* h3 {
   margin-top: 0;
   font-size: 1.8rem;
 }
-
+h1 {
+  margin-top: 0;
+  font-size: 1.8rem;
+} */
 .mapboxgl-marker:hover {
   cursor: pointer;
 }
@@ -48,14 +51,7 @@ button:hover {
   background-color: #ffffff;
 }
 
-#feature-info {
-  background: #EDE342;
-  padding: 0px;
-box-sizing: border-box;
-  min-height: 150px;
-  font-size: 14px;
-  color: #630FD1;
-}
+
 
 /* sidebar is fixed with and positioned to the left */
 #sidebar {
@@ -63,7 +59,7 @@ box-sizing: border-box;
   left: 0;
   top: 0;
   bottom: 0;
-  width: 290px;
+  width: 350px;
   background-color: #630FD1;
   color: #EDE342;
   padding: 0px;
